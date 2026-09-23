@@ -1,0 +1,30 @@
+# Maven
+target/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Local troubleshooting/output files
+build-output.txt
+classpath.txt
+dependency-tree.txt
+deps.txt
+effective-pom.txt
+runtime-deps.txt
+test-deps.txt
