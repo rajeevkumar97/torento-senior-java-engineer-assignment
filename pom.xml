@@ -13,21 +13,19 @@
 
     <properties>
 
-    <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-    <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>3.13.3</quarkus.platform.version>
+        <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+        <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+        <quarkus.platform.version>3.13.3</quarkus.platform.version>
 
-    <surefire-plugin.version>3.1.2</surefire-plugin.version>
-    <compiler-plugin.version>3.11.0</compiler-plugin.version>
+        <surefire-plugin.version>3.1.2</surefire-plugin.version>
+        <compiler-plugin.version>3.11.0</compiler-plugin.version>
 
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <maven.compiler.release>17</maven.compiler.release>
-    <quarkus.package.write-transformed-bytecode-to-build-output>true</quarkus.package.write-transformed-bytecode-to-build-output>
+        <maven.compiler.release>17</maven.compiler.release>
 
-    <quarkus.package.write-transformed-bytecode-to-build-output>true</quarkus.package.write-transformed-bytecode-to-build-output>
-
+        <quarkus.package.write-transformed-bytecode-to-build-output>true</quarkus.package.write-transformed-bytecode-to-build-output>
 
     </properties>
 
@@ -74,19 +72,28 @@
             <scope>test</scope>
         </dependency>
 
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-junit5-mockito</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <!-- Quarkus JaCoCo -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-jacoco</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-panache-mock</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <!-- Quarkus Mockito -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-junit5-mockito</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- Testcontainers -->
+        <!-- Quarkus Panache Mock -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-panache-mock</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Testcontainers -->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
@@ -101,14 +108,14 @@
             <scope>test</scope>
         </dependency>
 
-		<!-- REST Assured -->
+        <!-- REST Assured -->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <scope>test</scope>
         </dependency>
 
-		<!-- OpenAPI Generator -->
+        <!-- OpenAPI Generator -->
         <dependency>
             <groupId>io.quarkiverse.openapi.generator</groupId>
             <artifactId>quarkus-openapi-generator-server</artifactId>
@@ -121,7 +128,7 @@
 
         <plugins>
 
-			<!-- Java Compiler -->
+            <!-- Java Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -134,12 +141,13 @@
                 </configuration>
             </plugin>
 
-			<!-- Unit Tests -->
+            <!-- Unit Tests -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-plugin.version}</version>
 
                 <configuration>
+                    <argLine>@{argLine}</argLine>
 
                     <systemPropertyVariables>
 
@@ -152,10 +160,9 @@
                     </systemPropertyVariables>
 
                 </configuration>
-
             </plugin>
 
-			<!-- Integration Tests -->
+            <!-- Integration Tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -172,7 +179,7 @@
 
                         <configuration>
 
-							<!-- JaCoCo integration-test agent -->
+                            <!-- JaCoCo integration-test agent -->
                             <argLine>@{failsafeArgLine}</argLine>
 
                             <systemPropertyVariables>
@@ -193,7 +200,7 @@
 
             </plugin>
 
-			<!-- Quarkus -->
+            <!-- Quarkus -->
             <plugin>
                 <groupId>${quarkus.platform.group-id}</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
@@ -215,7 +222,7 @@
 
             </plugin>
 
-			<!-- JaCoCo Code Coverage -->
+            <!-- JaCoCo Code Coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -223,7 +230,7 @@
 
                 <executions>
 
-					<!-- Attach JaCoCo agent to unit tests -->
+                    <!-- Attach JaCoCo agent to unit tests -->
                     <execution>
 
                         <id>prepare-agent</id>
@@ -234,7 +241,7 @@
 
                     </execution>
 
-					<!-- Attach JaCoCo agent to integration tests -->
+                    <!-- Attach JaCoCo agent to integration tests -->
                     <execution>
 
                         <id>prepare-agent-integration</id>
@@ -244,14 +251,12 @@
                         </goals>
 
                         <configuration>
-
                             <propertyName>failsafeArgLine</propertyName>
-
                         </configuration>
 
                     </execution>
 
-					<!-- Merge unit-test and integration-test coverage -->
+                    <!-- Merge unit-test and integration-test coverage -->
                     <execution>
 
                         <id>merge</id>
@@ -289,7 +294,7 @@
 
                     </execution>
 
-					<!-- Generate final coverage report -->
+                    <!-- Generate final coverage report -->
                     <execution>
 
                         <id>report</id>
@@ -310,6 +315,51 @@
 
                     </execution>
 
+                    <!-- Enforce minimum 80% instruction coverage -->
+                    <execution>
+
+                        <id>check-coverage</id>
+
+                        <phase>verify</phase>
+
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+
+                        <configuration>
+
+                            <dataFile>
+                                ${project.build.directory}/jacoco-merged.exec
+                            </dataFile>
+
+                            <rules>
+
+                                <rule>
+
+                                    <element>BUNDLE</element>
+
+                                    <limits>
+
+                                        <limit>
+
+                                            <counter>INSTRUCTION</counter>
+
+                                            <value>COVEREDRATIO</value>
+
+                                            <minimum>0.80</minimum>
+
+                                        </limit>
+
+                                    </limits>
+
+                                </rule>
+
+                            </rules>
+
+                        </configuration>
+
+                    </execution>
+
                 </executions>
 
             </plugin>
@@ -320,7 +370,7 @@
 
     <profiles>
 
-		<!-- Native build profile -->
+        <!-- Native build profile -->
         <profile>
 
             <id>native</id>
@@ -389,7 +439,7 @@
 
         </profile>
 
-		<!-- Eclipse profile -->
+        <!-- Eclipse profile -->
         <profile>
 
             <id>eclipse</id>
